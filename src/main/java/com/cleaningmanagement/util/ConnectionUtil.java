@@ -1,10 +1,10 @@
-package com.cleaningmanagement.dao;
+package com.cleaningmanagement.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionClass {
+public class ConnectionUtil {
 
 	public static Connection getConnection()  {
 		Connection con=null;

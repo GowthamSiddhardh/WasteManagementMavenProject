@@ -45,9 +45,11 @@ public class Employee {
 		this.empPassWord = empPassWord;
 		this.location=location;
 	}
+	
 	@Override
 	public String toString() {
-		return "empEmail=" + empEmail + "\nempName=" + empName + "\nempPassWord=" + empPassWord + "\nlocation=" + location;
+		return "Employee [empEmail=" + empEmail + ", empName=" + empName + ", empPassWord=" + empPassWord
+				+ ", location=" + location + "]";
 	}
 	@Override
 	public int hashCode() {

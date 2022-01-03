@@ -1,23 +1,27 @@
-package com.WasteManagementSystem.controller;
+package com.cleaningmanagement.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cleaningmanagement.daoimpl.EmployeeDAOImpl;
+
 /**
- * Servlet implementation class AdminHome
+ * Servlet implementation class DeleteEmployee
  */
-@WebServlet("/AdminHome")
-public class AdminHome extends HttpServlet {
+@WebServlet("/DeleteEmployee")
+public class DeleteEmployee extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminHome() {
+    public DeleteEmployee() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,8 +32,16 @@ public class AdminHome extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		//response.sendRedirect("employee.jsp");
-		
+		String emailid=request.getParameter("emailid");
+		PrintWriter pw=response.getWriter();
+		pw.write(emailid);
+		int n=0;
+		EmployeeDAOImpl employee=new EmployeeDAOImpl();
+		n=employee.deleteEmployee(emailid);
+		if(n>0)
+		{
+			System.out.println("employee deleted");
+		}
 	}
 
 	/**

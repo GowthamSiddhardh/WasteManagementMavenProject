@@ -1,4 +1,4 @@
-package com.cleaningmanagement.dao;
+package com.cleaningmanagement.daoimpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,19 +8,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.WasteManagementSystem.interfacedao.RequestDao;
+import com.cleaningmanagement.dao.RequestDao;
 import com.cleaningmanagement.model.Employee;
 import com.cleaningmanagement.model.Request;
 import com.cleaningmanagement.model.User;
+import com.cleaningmanagement.util.ConnectionUtil;
 
-public class RequestDOlmpl implements RequestDao {
+public class RequestDAOImpl implements RequestDao {
 	public boolean insertRequestDetails(Request req) {
 		boolean flag = false;
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "insert into WMS_request (user_id,emp_id,category,location) values (?,?,?,?)";
 		try {
-			EmployeeDOlmpl empDao = new EmployeeDOlmpl();
-			UserDOlmpl userDao = new UserDOlmpl();
+			EmployeeDAOImpl empDao = new EmployeeDAOImpl();
+			UserDAOImpl userDao = new UserDAOImpl();
+			System.out.println(req);
 			int empId = empDao.findEmpId(req.getEmployee());
 			int userId = userDao.findUserId(req.getUser());
 			// System.out.println("Employee ID:"+empId);
@@ -31,7 +33,7 @@ public class RequestDOlmpl implements RequestDao {
 			pstmt.setString(3, req.getCatogories());
 			pstmt.setString(4, req.getLocation());
 			flag = pstmt.executeUpdate() > 0;
-
+			pstmt.executeUpdate("commit");
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -41,15 +43,15 @@ public class RequestDOlmpl implements RequestDao {
 	}
 
 	public List<Request> showRequest() {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		List<Request> listRequest = new ArrayList<Request>();
 		String query = "select * from WMS_request";
 		Request request = null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			UserDOlmpl userDao = new UserDOlmpl();
-			EmployeeDOlmpl employeedao = new EmployeeDOlmpl();
+			UserDAOImpl userDao = new UserDAOImpl();
+			EmployeeDAOImpl employeedao = new EmployeeDAOImpl();
 			while (rs.next()) {
 				User user = userDao.findUser(rs.getInt(2));
 				// System.out.println(rs.getInt(2));
@@ -67,7 +69,7 @@ public class RequestDOlmpl implements RequestDao {
 	}
 
 	public int findRequestID(int userId, String category, String location) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "select request_id from WMS_request where user_id=? and category=? and location=?";
 		int n = 0;
 		try {
@@ -87,7 +89,7 @@ public class RequestDOlmpl implements RequestDao {
 	}
 
 	public boolean deleteRequest(int RequestId) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String deleteQuery = "delete from WMS_request where request_id=" + RequestId;
 		boolean flag = false;
 		try {
@@ -102,7 +104,7 @@ public class RequestDOlmpl implements RequestDao {
 	}
 
 	public ResultSet billing() {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.emp_id from WMS_request r join Category_details c on r.category=c.categories";
 		ResultSet rs = null;
 		try {

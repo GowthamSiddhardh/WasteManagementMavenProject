@@ -1,4 +1,4 @@
-package com.WasteManagementSystem.controller;
+package com.cleaningmanagement.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cleaningmanagement.dao.AdminDOlmpl;
-import com.cleaningmanagement.model.Admin;
+import com.cleaningmanagement.daoimpl.UserDAOImpl;
+import com.cleaningmanagement.model.User;
 
 /**
- * Servlet implementation class AdminController
+ * Servlet implementation class UserRegisterController
  */
-@WebServlet("/AdminController")
-public class AdminController extends HttpServlet {
+@WebServlet("/UserRegisterController")
+public class UserRegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminController() {
+    public UserRegisterController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,16 +34,23 @@ public class AdminController extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String emailId=request.getParameter("emailid");
+		String name=request.getParameter("name");
 		String password=request.getParameter("password");
+		String address=request.getParameter("address");
+		long number=Long.parseLong(request.getParameter("mobilenumber"));
 		PrintWriter pw=response.getWriter();
-		pw.write("USERNAME"+emailId);
-		pw.write("PASSWORD"+password);
-		Admin admin=null;
-		AdminDOlmpl ad = new AdminDOlmpl();
-	    admin=ad.AdminDatabase(emailId, password);
-		if (admin != null) {
-			response.sendRedirect("adminhome.jsp");
-		} 
+		pw.write(emailId);
+		pw.write(name);
+		pw.write(password);
+		pw.write(address);
+		User user=new User(emailId,name,password,address,number,0.0);
+		UserDAOImpl ud = new UserDAOImpl();
+		boolean b = ud.insertUserDatabase(user);
+		if(b==true)
+		{
+			response.sendRedirect("index.jsp");
+		}
+		
 	}
 
 	/**

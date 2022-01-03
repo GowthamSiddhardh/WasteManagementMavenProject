@@ -1,4 +1,4 @@
-package com.cleaningmanagement.dao;
+package com.cleaningmanagement.daoimpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,17 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.WasteManagementSystem.interfacedao.UserDao;
+import com.cleaningmanagement.dao.UserDao;
 import com.cleaningmanagement.model.CategoryDetails;
 import com.cleaningmanagement.model.Employee;
 import com.cleaningmanagement.model.Request;
 import com.cleaningmanagement.model.User;
+import com.cleaningmanagement.util.ConnectionUtil;
 
-public class UserDOlmpl implements UserDao {
+public class UserDAOImpl implements UserDao {
 	public boolean insertUserDatabase(User user) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "insert into  WMS_user(user_email,user_name,user_pwd,Address,mobile_no) values(?,?,?,?,?)";
-
+        boolean b=false;
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
 			pstmt.setString(1, user.getUserEmail());
@@ -24,18 +25,18 @@ public class UserDOlmpl implements UserDao {
 			pstmt.setString(3, user.getUserPwd());
 			pstmt.setString(4, user.getUserAddress());
 			pstmt.setLong(5, user.getUserMobileNo());
-			ResultSet rs = pstmt.executeQuery();
+			 b= pstmt.executeUpdate()>0;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return true;
+		return b;
 
 	}
 
 	public User validateUser(String email, String password) {
 		User user = null;
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "select * from WMS_user where user_email='" + email + "' and user_pwd='" + password + "'";
 		Statement st;
 		try {
@@ -55,7 +56,7 @@ public class UserDOlmpl implements UserDao {
 	}
 
 	public int findUserId(User user) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "select user_id from WMS_user where user_email= '" + user.getUserEmail() + "'";
 		int id = 0;
 		Statement st;
@@ -76,7 +77,7 @@ public class UserDOlmpl implements UserDao {
 	public User findUser(int id)
 
 	{
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "select * from WMS_user where user_id=" + id;
 		User user = null;
 		try {
@@ -98,7 +99,7 @@ public class UserDOlmpl implements UserDao {
 	public int findUser(String email)
 
 	{
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "select user_id from WMS_user where user_email='" + email + "'";
 		int n = 0;
 		try {
@@ -117,9 +118,9 @@ public class UserDOlmpl implements UserDao {
 	}
 
 	public ResultSet userBill(User user) {
-		UserDOlmpl userdao = new UserDOlmpl();
+		UserDAOImpl userdao = new UserDAOImpl();
 		int userid = userdao.findUserId(user);
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String joinQuery = "select r.request_id,r.user_id,r.category,c.weight_kg,c.amount,r.emp_id from WMS_request r "
 				+ "join Category_details c on r.category=c.categories where user_id=" + userid;
 		ResultSet rs = null;
@@ -135,9 +136,9 @@ public class UserDOlmpl implements UserDao {
 	}
 
 	public boolean rechargeWallet(User user) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String updateQuery = "update WMS_user set wallet=? where user_id=?";
-		UserDOlmpl userdao = new UserDOlmpl();
+		UserDAOImpl userdao = new UserDAOImpl();
 		int userId = userdao.findUserId(user);
 		boolean flag = false;
 		try {
@@ -155,8 +156,8 @@ public class UserDOlmpl implements UserDao {
 	}
 
 	public boolean updateWallet(User user, int amount) {
-		Connection con = ConnectionClass.getConnection();
-		UserDOlmpl userdao = new UserDOlmpl();
+		Connection con = ConnectionUtil.getConnection();
+		UserDAOImpl userdao = new UserDAOImpl();
 		int userId = userdao.findUserId(user);
 		String updateQuery1 = "update WMS_user set Wallet=" + (user.getWallet() - amount) + "where user_id=" + userId;
 		boolean flag = false;
@@ -174,8 +175,8 @@ public class UserDOlmpl implements UserDao {
 	}
 
 	public boolean refundWallet(User user, CategoryDetails cd1) {
-		Connection con = ConnectionClass.getConnection();
-		UserDOlmpl userdao = new UserDOlmpl();
+		Connection con = ConnectionUtil.getConnection();
+		UserDAOImpl userdao = new UserDAOImpl();
 		int userId = userdao.findUserId(user);
 		String updateQuery1 = "update WMS_user set Wallet=" + (user.getWallet() + cd1.getAmount()) + "where user_id="
 				+ userId;

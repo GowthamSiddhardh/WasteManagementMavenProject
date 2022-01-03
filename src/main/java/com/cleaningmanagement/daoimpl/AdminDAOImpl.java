@@ -1,4 +1,4 @@
-package com.cleaningmanagement.dao;
+package com.cleaningmanagement.daoimpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,15 +7,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import com.WasteManagementSystem.interfacedao.AdminDao;
+import com.cleaningmanagement.dao.AdminDao;
 import com.cleaningmanagement.model.Admin;
 import com.cleaningmanagement.model.CategoryDetails;
+import com.cleaningmanagement.util.ConnectionUtil;
 
-public class AdminDOlmpl implements AdminDao {
+public class AdminDAOImpl implements AdminDao {
 	public Admin AdminDatabase(String adminEmail, String passWord) {
 		Admin admin = null;
 		try {
-			Connection con = ConnectionClass.getConnection();
+			Connection con = ConnectionUtil.getConnection();
 			String insertQuery = "select * from WMS_admin where admin_email='" + adminEmail + "'and admin_pwd='"
 					+ passWord + "'";
 
@@ -34,7 +35,7 @@ public class AdminDOlmpl implements AdminDao {
 	}
 
 	public ResultSet showrequest(String location) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.emp_id from WMS_request r "
 
 				+ "join Category_details c on r.category=c.categories where r.location='" + location + "'";
@@ -51,7 +52,7 @@ public class AdminDOlmpl implements AdminDao {
 	}
 
 	public ResultSet showrequest1(String category) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,r.emp_id,c.weight_kg,c.amount from WMS_request r "
 				+ "join Category_details c on r.category=c.categories where r.category='" + category + "'";
 		ResultSet rs = null;
@@ -67,7 +68,7 @@ public class AdminDOlmpl implements AdminDao {
 	}
 
 	public int updateRequest(String status, int requestId) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String updateQuery = "update WMS_request set status=? where request_id=?";
 		int n = 0;
 		try {

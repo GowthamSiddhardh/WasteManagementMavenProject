@@ -1,4 +1,4 @@
-package com.cleaningmanagement.dao;
+package com.cleaningmanagement.daoimpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,13 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.WasteManagementSystem.interfacedao.EmployeeDao;
+import com.cleaningmanagement.dao.EmployeeDao;
 import com.cleaningmanagement.model.Employee;
+import com.cleaningmanagement.util.ConnectionUtil;
 
-public class EmployeeDOlmpl implements EmployeeDao {
+public class EmployeeDAOImpl implements EmployeeDao {
 	public boolean insertEmpDatabase(Employee emp) {
 		boolean flag = false;
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "insert into  WMS_employee(emp_email,emp_name,emp_pwd,location) values(?,?,?,?)";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
@@ -33,7 +34,7 @@ public class EmployeeDOlmpl implements EmployeeDao {
 	}
 
 	public Employee validation(String email, String password) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		ResultSet rs = null;
 		Employee emp = null;
 		try {
@@ -53,7 +54,7 @@ public class EmployeeDOlmpl implements EmployeeDao {
 	}
 
 	public int findEmpId(Employee employee) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "select emp_id from WMS_employee where location= '" + employee.getLocation() + "'";
 		int id = 0;
 		Statement st;
@@ -71,7 +72,7 @@ public class EmployeeDOlmpl implements EmployeeDao {
 	}
 
 	public Employee findEmployee(String location) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String query = "select * from WMS_employee where location= '" + location + "'";
 		Employee emp = null;
 		Statement st;
@@ -79,6 +80,7 @@ public class EmployeeDOlmpl implements EmployeeDao {
 			st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			if (rs.next()) {
+				System.out.println(rs.getString(2));
 				emp = new Employee(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 			}
 		} catch (SQLException e) {
@@ -90,7 +92,7 @@ public class EmployeeDOlmpl implements EmployeeDao {
 	}
 
 	public List<Employee> showEmployee() {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		List<Employee> listemployee = new ArrayList<Employee>();
 		String query = "select * from WMS_employee";
 		Employee employee = null;
@@ -111,7 +113,7 @@ public class EmployeeDOlmpl implements EmployeeDao {
 	}
 
 	public int deleteEmployee(String email) {
-		Connection con = ConnectionClass.getConnection();
+		Connection con = ConnectionUtil.getConnection();
 		String deleteQuery = "delete from WMS_employee where emp_email='" + email + "'";
 		int n = 0;
 		try {

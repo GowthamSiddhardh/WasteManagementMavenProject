@@ -1,4 +1,4 @@
-package com.WasteManagementSystem.interfacedao;
+package com.cleaningmanagement.dao;
 
 import com.cleaningmanagement.model.CategoryDetails;
 

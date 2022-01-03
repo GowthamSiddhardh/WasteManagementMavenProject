@@ -1,4 +1,4 @@
-package com.WasteManagementSystem.interfacedao;
+package com.cleaningmanagement.dao;
 
 import java.sql.ResultSet;
 import java.util.List;
