@@ -14,5 +14,5 @@ public interface UserDao {
 	public ResultSet userBill(User user);
 	public boolean rechargeWallet(User user);
 	public boolean updateWallet(User user, int amount);
-	public boolean refundWallet(User user, CategoryDetails cd1);
+	public boolean refundWallet(User user, int amount);
 }

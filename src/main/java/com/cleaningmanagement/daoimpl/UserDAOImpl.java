@@ -121,7 +121,7 @@ public class UserDAOImpl implements UserDao {
 		UserDAOImpl userdao = new UserDAOImpl();
 		int userid = userdao.findUserId(user);
 		Connection con = ConnectionUtil.getConnection();
-		String joinQuery = "select r.request_id,r.user_id,r.category,c.weight_kg,c.amount,r.emp_id from WMS_request r "
+		String joinQuery = "select r.request_id,r.user_id,r.category,c.weight_kg,c.amount,r.emp_id,r.request_date,r.location from WMS_request r "
 				+ "join Category_details c on r.category=c.categories where user_id=" + userid;
 		ResultSet rs = null;
 		try {
@@ -174,11 +174,11 @@ public class UserDAOImpl implements UserDao {
 
 	}
 
-	public boolean refundWallet(User user, CategoryDetails cd1) {
+	public boolean refundWallet(User user, int amount) {
 		Connection con = ConnectionUtil.getConnection();
 		UserDAOImpl userdao = new UserDAOImpl();
 		int userId = userdao.findUserId(user);
-		String updateQuery1 = "update WMS_user set Wallet=" + (user.getWallet() + cd1.getAmount()) + "where user_id="
+		String updateQuery1 = "update WMS_user set Wallet=" + (user.getWallet() + amount) + "where user_id="
 				+ userId;
 		boolean flag = false;
 		try {
@@ -194,4 +194,5 @@ public class UserDAOImpl implements UserDao {
 
 	}
 
+	
 }

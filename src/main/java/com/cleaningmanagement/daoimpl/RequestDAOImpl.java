@@ -32,6 +32,7 @@ public class RequestDAOImpl implements RequestDao {
 			pstmt.setInt(2, empId);
 			pstmt.setString(3, req.getCatogories());
 			pstmt.setString(4, req.getLocation());
+			
 			flag = pstmt.executeUpdate() > 0;
 			pstmt.executeUpdate("commit");
 		} catch (SQLException e1) {
@@ -56,7 +57,7 @@ public class RequestDAOImpl implements RequestDao {
 				User user = userDao.findUser(rs.getInt(2));
 				// System.out.println(rs.getInt(2));
 				Employee employee = employeedao.findEmployee(rs.getString(5));
-				request = new Request(user, employee, rs.getString(4), rs.getString(5));
+				request = new Request(user, employee, rs.getString(4), rs.getString(5),rs.getDate(6));
 				listRequest.add(request);
 			}
 
@@ -105,7 +106,7 @@ public class RequestDAOImpl implements RequestDao {
 
 	public ResultSet billing() {
 		Connection con = ConnectionUtil.getConnection();
-		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.emp_id from WMS_request r join Category_details c on r.category=c.categories";
+		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.emp_id,r.request_date from WMS_request r join Category_details c on r.category=c.categories";
 		ResultSet rs = null;
 		try {
 			Statement stmt = con.createStatement();
@@ -117,6 +118,8 @@ public class RequestDAOImpl implements RequestDao {
 		}
 		return rs;
 	}
+	
+	
 	
 
 }

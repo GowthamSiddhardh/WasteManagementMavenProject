@@ -47,8 +47,12 @@ public class AddEmployeeController extends HttpServlet {
 		EmployeeDAOImpl empdao = new EmployeeDAOImpl();
 		b = empdao.insertEmpDatabase(emp);
 		if (b == true) {
-			System.out.println("registered successfully");
+			response.sendRedirect("EmployeeAddedMessage.jsp");
 		} 
+		else
+		{
+			response.sendRedirect("employee.jsp");
+		}
 	}
 
 	/**

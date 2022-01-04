@@ -2,13 +2,13 @@
 <%@page import="com.cleaningmanagement.daoimpl.UserDAOImpl"%>
 <%@page import="com.cleaningmanagement.model.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>bill</title>
-<style>
+<title>DeleteRequest</title>
+<style type="text/css">
 table,tr,th,td{
 border:1px solid black;
 border-collapse:collapse;
@@ -16,16 +16,15 @@ border-collapse:collapse;
 }
 </head>
 <body>
-	<h1>Bill</h1>
-	<%!User user; %>
-	<%!int amount; %>
+<%!User user;
+ResultSet rs;
+%>
 <% 
   user=(User)session.getAttribute("CurrentUser");
  UserDAOImpl userdao = new UserDAOImpl();
- ResultSet rs = userdao.userBill(user);
-  
- if(user.getWallet()>amount){%>
-	<table>
+  rs= userdao.userBill(user);
+ %>
+ <table>
 		<tr>
 			<th>RequestID</th>
 			<th>UserId</th>
@@ -34,11 +33,11 @@ border-collapse:collapse;
 			<th>Amount</th>
 			<th>EmployeeId</th>
 			<th>RequestDate</th>
-			<th>Location></th>
+			<th>Location</th>
+			<th>Delete</th>
 		</tr>
-
-		<%while(rs.next()) {%>
-		<tr>
+		   <%while(rs.next()) {%>
+        <tr>
 			<td><%=rs.getInt(1) %></td>
 			<td><%=rs.getInt(2) %></td>
 			<td><%=rs.getString(3) %></td>
@@ -47,23 +46,8 @@ border-collapse:collapse;
 			<td><%=rs.getInt(6) %></td>
 			<td><%=rs.getDate(7) %></td>
 			<td><%=rs.getString(8) %></td>
+			<td><a href="Deleteserv?rid=<%=rs.getString(2)%>&cat=<%=rs.getString(3)%>&loc=<%=rs.getString(8)%>&amount=<%=rs.getInt(5) %>">Delete</a></td>
 		</tr>
-		<%amount = rs.getInt(5); %>
 		<% } %>
-	</table>
-	<%  
-     UserDAOImpl userdao1 = new UserDAOImpl();
-	boolean b1 = userdao1.updateWallet(user, amount);
-	if(b1==true)
-	{%>
-	<h1><%= amount%>
-		&nbsp;Successfully deducted!!
-	</h1>
-	<%}%>
-	<% }else{%>
-	<h1>Insufficient Balance</h1>
-	<%}%>
-
-
 </body>
 </html>

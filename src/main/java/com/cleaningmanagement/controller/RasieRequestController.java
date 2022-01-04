@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,7 +55,8 @@ public class RasieRequestController extends HttpServlet {
 		System.out.println(location);
 		EmployeeDAOImpl empDao = new EmployeeDAOImpl();
 	    employee = empDao.findEmployee(location);
-		req = new Request(user, employee, category, location);
+	    Date sysDate=new Date(); 
+		req = new Request(user, employee, category, location,sysDate);
 		RequestDAOImpl rd = new RequestDAOImpl();
 		boolean b = rd.insertRequestDetails(req);
 		

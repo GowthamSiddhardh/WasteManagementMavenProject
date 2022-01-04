@@ -52,10 +52,13 @@ public class AdminController extends HttpServlet {
 	    employee=ed.validation(emailId, password);
 	    UserDAOImpl ud=new UserDAOImpl();
 	    user=ud.validateUser(emailId, password);
+	    System.out.println("hello");
 		if (admin != null) {
 			response.sendRedirect("adminhome.jsp");
 		} 
 		else if(employee!=null) {
+			HttpSession session=request.getSession();
+			session.setAttribute("CurrentEmployee",employee);
 			response.sendRedirect("employeehome.jsp");
 		}
 		else if(user!=null)
@@ -65,7 +68,7 @@ public class AdminController extends HttpServlet {
 			response.sendRedirect("userhome.jsp");
 		}
 		else
-		{
+		{   
 			pw.write("invalid");
 		}
 			

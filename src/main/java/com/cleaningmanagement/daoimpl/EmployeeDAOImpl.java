@@ -42,7 +42,7 @@ public class EmployeeDAOImpl implements EmployeeDao {
 			Statement pstmt = con.createStatement();
 			rs = pstmt.executeQuery(query);
 			if (rs.next()) {
-				emp = new Employee(email, rs.getString(3), password, rs.getString(4));
+				emp = new Employee(email, rs.getString(3), password, rs.getString(5));
 
 			}
 		} catch (SQLException e) {
@@ -126,6 +126,25 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 		return n;
 
+	}
+	
+	public ResultSet findEmployeeRequest(Employee employee) {
+		Connection con = ConnectionUtil.getConnection();
+		EmployeeDAOImpl employeedao=new EmployeeDAOImpl();
+		int EmpId=employeedao.findEmpId(employee);
+		System.out.println(employee+""+EmpId);
+		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.emp_id,r.request_date from WMS_request r join Category_details c on r.category=c.categories "
+				+ "where r.emp_id="+EmpId;
+		ResultSet rs = null;
+		try {
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(joinQuery);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
 	}
 
 }

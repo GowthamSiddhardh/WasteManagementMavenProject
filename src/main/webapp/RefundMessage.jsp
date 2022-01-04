@@ -4,14 +4,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>EmployeeHome</title>
+<title>RefundMessage</title>
 </head>
 <body>
- <form>
- <h1>Welcome</h1>
-  <ul>
-  <li><a href="showemployeesrequest.jsp"><b>ShowRequest</b></a>
-  </ul>
- </form>
+<h1>Request is deleted successfully</h1>
+
+<h3>Amount is Refunded to the Wallet </h3>
 </body>
 </html>

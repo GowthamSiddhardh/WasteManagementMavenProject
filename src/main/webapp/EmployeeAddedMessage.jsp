@@ -4,14 +4,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>EmployeeHome</title>
+<title>Insert title here</title>
 </head>
 <body>
- <form>
- <h1>Welcome</h1>
-  <ul>
-  <li><a href="showemployeesrequest.jsp"><b>ShowRequest</b></a>
-  </ul>
- </form>
+  <h1>Employee Added Successfully!!</h1>
 </body>
 </html>

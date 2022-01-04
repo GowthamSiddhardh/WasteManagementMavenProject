@@ -11,7 +11,8 @@
   <ul>
   <li><a href="listcategory.jsp"><b>AvailableCategories</b></a></li><br>
   <li><a href="raiserequest.jsp"><b>RaiseRequest</b></a></li><br>
-  <li><a href="rechargewallet.jsp"><b>RechargeWallet</b></a></li>
+  <li><a href="rechargewallet.jsp"><b>RechargeWallet</b></a></li><br>
+  <li><a href="deleterequest.jsp"><b>DeleteRequest</b></a></li>
   </ul>
 </body>
 </html>

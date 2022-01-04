@@ -44,8 +44,12 @@ public class AddCategoryController extends HttpServlet {
 		CategoryDAOImpl categorydao = new CategoryDAOImpl();
 		int k = categorydao.insertCategoryDetails(c1);
 		if (k > 0) {
-			System.out.println( "inserted successfully");
+			response.sendRedirect("CategoryAddedMessage.jsp");
 		} 
+		else
+		{
+			response.sendRedirect("category.jsp");
+		}
 		
 	}
 
