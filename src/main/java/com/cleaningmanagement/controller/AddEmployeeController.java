@@ -18,49 +18,50 @@ import com.cleaningmanagement.model.Employee;
 @WebServlet("/EmployeeController")
 public class AddEmployeeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AddEmployeeController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AddEmployeeController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		String emailId=request.getParameter("emailid");
-		String name=request.getParameter("name");
-		String password=request.getParameter("password");
-		String location=request.getParameter("location");
-		PrintWriter pw=response.getWriter();
+		String emailId = request.getParameter("emailid");
+		String name = request.getParameter("name");
+		String password = request.getParameter("password");
+		String location = request.getParameter("location");
+		PrintWriter pw = response.getWriter();
 		pw.write(emailId);
 		pw.write(name);
 		pw.write(password);
 		pw.write(location);
-		boolean b=false;
-		Employee emp = new Employee(emailId, name,password,location);
+		boolean b = false;
+		Employee emp = new Employee(emailId, name, password, location);
 		EmployeeDAOImpl empdao = new EmployeeDAOImpl();
 		b = empdao.insertEmpDatabase(emp);
 		if (b == true) {
-			response.sendRedirect("EmployeeAddedMessage.jsp");
-		} 
-		else
-		{
+			response.sendRedirect("AddedListEmployee.jsp");
+		} else {
 			response.sendRedirect("employee.jsp");
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

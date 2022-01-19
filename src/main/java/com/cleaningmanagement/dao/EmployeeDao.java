@@ -1,5 +1,6 @@
 package com.cleaningmanagement.dao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.cleaningmanagement.model.Employee;
@@ -10,5 +11,7 @@ public interface EmployeeDao {
 	public int findEmpId(Employee employee);
 	public Employee findEmployee(String location);
 	public List<Employee> showEmployee();
-	public int deleteEmployee(String email);
+	
+	public ResultSet findEmployeeRequest(Employee employee);
+	public boolean updateEmployeeStatus(String Status,int reqId);
 }

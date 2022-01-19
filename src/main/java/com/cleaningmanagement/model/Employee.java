@@ -8,6 +8,7 @@ public class Employee {
 	private String empName;
 	private String empPassWord;
 	private String location;
+	private String status;
 	
 	public String getEmpEmail() {
 		return empEmail;
@@ -33,6 +34,13 @@ public class Employee {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Employee() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -46,6 +54,15 @@ public class Employee {
 		this.location=location;
 	}
 	
+	
+	public Employee(String empEmail, String empName, String empPassWord, String location, String status) {
+		super();
+		this.empEmail = empEmail;
+		this.empName = empName;
+		this.empPassWord = empPassWord;
+		this.location = location;
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "Employee [empEmail=" + empEmail + ", empName=" + empName + ", empPassWord=" + empPassWord

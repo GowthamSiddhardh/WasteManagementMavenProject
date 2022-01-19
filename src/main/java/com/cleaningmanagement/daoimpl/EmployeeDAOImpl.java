@@ -1,5 +1,6 @@
 package com.cleaningmanagement.daoimpl;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,7 +43,7 @@ public class EmployeeDAOImpl implements EmployeeDao {
 			Statement pstmt = con.createStatement();
 			rs = pstmt.executeQuery(query);
 			if (rs.next()) {
-				emp = new Employee(email, rs.getString(3), password, rs.getString(5));
+				emp = new Employee(email, rs.getString(3), password, rs.getString(5),rs.getString(6));
 
 			}
 		} catch (SQLException e) {
@@ -80,8 +81,8 @@ public class EmployeeDAOImpl implements EmployeeDao {
 			st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			if (rs.next()) {
-				System.out.println(rs.getString(2));
-				emp = new Employee(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+				//System.out.println(rs.getString(2));
+				emp = new Employee(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -100,7 +101,7 @@ public class EmployeeDAOImpl implements EmployeeDao {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				employee = new Employee(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+				employee = new Employee(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6));
 				listemployee.add(employee);
 
 			}
@@ -112,28 +113,14 @@ public class EmployeeDAOImpl implements EmployeeDao {
 
 	}
 
-	public int deleteEmployee(String email) {
-		Connection con = ConnectionUtil.getConnection();
-		String deleteQuery = "delete from WMS_employee where emp_email='" + email + "'";
-		int n = 0;
-		try {
-			Statement stmt = con.createStatement();
-			n = stmt.executeUpdate(deleteQuery);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return n;
-
-	}
+	
 	
 	public ResultSet findEmployeeRequest(Employee employee) {
 		Connection con = ConnectionUtil.getConnection();
 		EmployeeDAOImpl employeedao=new EmployeeDAOImpl();
 		int EmpId=employeedao.findEmpId(employee);
-		System.out.println(employee+""+EmpId);
-		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.emp_id,r.request_date from WMS_request r join Category_details c on r.category=c.categories "
+	//	System.out.println(employee+""+EmpId);
+		String joinQuery = "select r.request_id,r.user_id,r.category,r.location,c.weight_kg,c.amount,r.request_date,r.employeestatus from WMS_request r join Category_details c on r.category=c.categories "
 				+ "where r.emp_id="+EmpId;
 		ResultSet rs = null;
 		try {
@@ -146,5 +133,44 @@ public class EmployeeDAOImpl implements EmployeeDao {
 		}
 		return rs;
 	}
+	 public boolean updatestatus(String Status,String emailId)
+	 {  Connection con = ConnectionUtil.getConnection();
+	    String query="update WMS_employee set status=?where emp_email=?";
+	    boolean flag=false;
+	    
+	    try {
+	    	PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setString(1,Status);
+			pstmt.setString(2, emailId);
+			flag=pstmt.executeUpdate()>0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return flag;
+		 
+	 }
+	 
+	 public boolean updateEmployeeStatus(String Status,int reqId)
+	 {  Connection con = ConnectionUtil.getConnection();
+	    String query="update WMS_request set employeestatus=? where request_id=?";
+	    
+	    boolean flag=false;
+	    try {
+	    	PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setString(1,Status);
+			pstmt.setInt(2, reqId);
+			flag=pstmt.executeUpdate()>0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return flag;
+		 
+	 }
+	 
+	 
 
 }

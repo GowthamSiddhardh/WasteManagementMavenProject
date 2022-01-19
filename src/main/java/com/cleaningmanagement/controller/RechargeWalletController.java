@@ -32,7 +32,7 @@ public class RechargeWalletController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		Double wallet=Double.parseDouble(request.getParameter("amount"));
@@ -40,20 +40,24 @@ public class RechargeWalletController extends HttpServlet {
 		HttpSession session=request.getSession();
 		User user=(User) session.getAttribute("CurrentUser");
 		user.setWallet(user.getWallet() + wallet);
+		
 		UserDAOImpl userdao1 = new UserDAOImpl();
 		boolean b1 = userdao1.rechargeWallet(user);
-		if (b1 == true) {
-			System.out.println("wallet recharge successfully");
+		if (b1) {
+			HttpSession session1=request.getSession();
+			session1.setAttribute("recharge", true);
+			response.sendRedirect("rechargewallet.jsp");
 		}
+		}
+		
 	    
-	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

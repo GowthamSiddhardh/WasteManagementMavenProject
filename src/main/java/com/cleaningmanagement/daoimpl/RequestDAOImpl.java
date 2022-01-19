@@ -1,11 +1,14 @@
 package com.cleaningmanagement.daoimpl;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.cleaningmanagement.dao.RequestDao;
@@ -22,7 +25,7 @@ public class RequestDAOImpl implements RequestDao {
 		try {
 			EmployeeDAOImpl empDao = new EmployeeDAOImpl();
 			UserDAOImpl userDao = new UserDAOImpl();
-			System.out.println(req);
+			// System.out.println(req);
 			int empId = empDao.findEmpId(req.getEmployee());
 			int userId = userDao.findUserId(req.getUser());
 			// System.out.println("Employee ID:"+empId);
@@ -32,7 +35,7 @@ public class RequestDAOImpl implements RequestDao {
 			pstmt.setInt(2, empId);
 			pstmt.setString(3, req.getCatogories());
 			pstmt.setString(4, req.getLocation());
-			
+
 			flag = pstmt.executeUpdate() > 0;
 			pstmt.executeUpdate("commit");
 		} catch (SQLException e1) {
@@ -53,18 +56,58 @@ public class RequestDAOImpl implements RequestDao {
 			ResultSet rs = stmt.executeQuery(query);
 			UserDAOImpl userDao = new UserDAOImpl();
 			EmployeeDAOImpl employeedao = new EmployeeDAOImpl();
+			// System.out.println("before while");
 			while (rs.next()) {
+				// System.out.println(rs.getString(4));
+				// System.out.println(rs.getString(5));
+				// System.out.println(rs.getString(6));
 				User user = userDao.findUser(rs.getInt(2));
 				// System.out.println(rs.getInt(2));
 				Employee employee = employeedao.findEmployee(rs.getString(5));
-				request = new Request(user, employee, rs.getString(4), rs.getString(5),rs.getDate(6));
+				// System.out.println(user);
+				// System.out.println(employee);
+				request = new Request(rs.getInt(1), user, employee, rs.getString(4), rs.getString(5), rs.getString(6),
+						rs.getString(7), rs.getDate(8));
+
 				listRequest.add(request);
+
 			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return listRequest;
+
+	}
+
+	public List<Request> showRequest(String search) {
+		Connection con = ConnectionUtil.getConnection();
+		List<Request> listRequest = new ArrayList<Request>();
+		String que = "select * from WMS_request where category like '%" + search.toLowerCase()
+				+ "%' or location like '%" + search.toLowerCase() + "%' or employeestatus  like '%"
+				+ search.toLowerCase() + "%' or requeststatus like '%" + search.toLowerCase() + "%'";
+		Request request = null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(que);
+			UserDAOImpl userDao = new UserDAOImpl();
+			EmployeeDAOImpl employeedao = new EmployeeDAOImpl();
+			// System.out.println("before while");
+			while (rs.next()) {
+                User user = userDao.findUser(rs.getInt(2));
+                Employee employee = employeedao.findEmployee(rs.getString(5));
+                request = new Request(rs.getInt(1), user, employee, rs.getString(4), rs.getString(5), rs.getString(6),
+						rs.getString(7), rs.getDate(8));
+                listRequest.add(request);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return listRequest;
 
 	}
@@ -118,8 +161,30 @@ public class RequestDAOImpl implements RequestDao {
 		}
 		return rs;
 	}
-	
-	
-	
+
+	public ResultSet CalculateAmount(String location, Date fromdate, Date todate) {
+		Connection con = ConnectionUtil.getConnection();
+		String query = "select sum(c.weight_kg) from Category_details c join WMS_request r on c.categories=r.category  where r.location=? and r.requeststatus='completed' and r.request_date between ? and ? group by r.location ";
+		ResultSet rs = null;
+
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setString(1, location);
+			pstmt.setDate(2, new java.sql.Date(fromdate.getTime()));
+			pstmt.setDate(3, new java.sql.Date(todate.getTime()));
+			rs = pstmt.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+
+	}
+
+	@Override
+	public ResultSet CalculateAmount(String location, java.sql.Date fromdate, java.sql.Date todate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -7,63 +7,84 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>bill</title>
+<title>billPage</title>
 <style>
-table,tr,th,td{
-border:1px solid black;
-border-collapse:collapse;
-
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  
 }
+th, td {
+  padding: 15px;
+  
+}
+body{
+    
+    background-color:lightyellow;
+}
+h1{
+ text-align:center;
+ color:red;
+ 
+}
+table {
+  margin-left: auto; 
+  margin-right: auto;
+  width:100%
+}
+table tr:nth-child(even) {
+    background: #0000001a;
+}
+</style>
 </head>
 <body>
-	<h1>Bill</h1>
+<a href="userhome.jsp"><button><b>HomePage</b></button></a>
+<h1>Bill</h1>
 	<%!User user; %>
-	<%!int amount; %>
-<% 
-  user=(User)session.getAttribute("CurrentUser");
+	<%!int Amount; %>
+	
+	<% 
+ user=(User)session.getAttribute("CurrentUser");
+
  UserDAOImpl userdao = new UserDAOImpl();
- ResultSet rs = userdao.userBill(user);
+ ResultSet rs = userdao.showbill(user);
   
- if(user.getWallet()>amount){%>
+ %>
+   
 	<table>
 		<tr>
-			<th>RequestID</th>
-			<th>UserId</th>
+			
+			<th>UserName</th>
+			<th>Location</th>
 			<th>Category</th>
 			<th>Weight</th>
-			<th>Amount</th>
-			<th>EmployeeId</th>
 			<th>RequestDate</th>
-			<th>Location></th>
+			<th>Amount</th>
+			
 		</tr>
-
-		<%while(rs.next()) {%>
-		<tr>
-			<td><%=rs.getInt(1) %></td>
-			<td><%=rs.getInt(2) %></td>
+        
+        <%if(rs.next()){ %>
+         <tr>
+			<td><%=rs.getString(1) %></td>
+			<td><%=rs.getString(2) %></td>
 			<td><%=rs.getString(3) %></td>
 			<td><%=rs.getInt(4) %></td>
-			<td><%=rs.getInt(5) %></td>
+			<td><%=rs.getDate(5) %></td>
 			<td><%=rs.getInt(6) %></td>
-			<td><%=rs.getDate(7) %></td>
-			<td><%=rs.getString(8) %></td>
+			
 		</tr>
-		<%amount = rs.getInt(5); %>
-		<% } %>
+		<%Amount=rs.getInt(6); %>
+		<%} %>
 	</table>
 	<%  
      UserDAOImpl userdao1 = new UserDAOImpl();
-	boolean b1 = userdao1.updateWallet(user, amount);
-	if(b1==true)
-	{%>
-	<h1><%= amount%>
+	boolean b1 = userdao1.updateWallet(user, Amount);
+	if(b1){%>
+	 <h1><%= Amount%>
 		&nbsp;Successfully deducted!!
 	</h1>
-	<%}%>
-	<% }else{%>
-	<h1>Insufficient Balance</h1>
-	<%}%>
-
-
+	  
+	<%} %>
+	  
 </body>
 </html>

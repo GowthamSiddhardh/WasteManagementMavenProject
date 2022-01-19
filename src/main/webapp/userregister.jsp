@@ -4,24 +4,86 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>UserRegister</title>
 <style>
-form{
-width:30px;
-display:inline-block;
-text-align:center;
+body{
+background-image: url('images/background1.jpg');
+    margin: 0px;
 }
+.loginContent {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loginContent form {
+    background: white;
+    padding: 15px;
+    text-align: left;
+}
+.loginContent form label {
+    font-weight: bold;
+}
+.loginContent form h1 {
+    margin: 0px 0px 20px;
+    text-align: center;
+}
+.loginContent form input {
+    width: 95%;
+    border: none;
+    background: aliceblue;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.loginContent form {
+    background: white;
+    padding: 15px;
+    text-align: left;
+    width:25%
+}
+.formBtn {
+    display: flex;
+    justify-content: center;
+}
+.formBtn input {
+    margin: 4px 4px;
+    width: auto !important;
+    padding: 10px 25px !important;
+    background: black !important;
+    color: white;
+    font-weight: bold;
+}
+h1{
+    text-align: center;
+    color: red;
+    font-weight: bold;}
 </style>
 </head>
-<body style="border:10px solid black; text-align: center; width:300px; margin:auto;">
-  <h1>User Register</h1>
-  <form action="UserRegisterController">
-   EmailId:<input type="email" name="emailid" autofocus required><br>
-   Name:<input type="text" name="name" required><br>
-   PassWord:<input type="password" name="password" required><br>
-   Address:<input type="text" name="address" required><br>
-   MobileNumber:<input type="number" name="mobilenumber" required><br>
-   <input type="submit" value="register" required>
+<body>
+<% String EmailId=(String)session.getAttribute("email");
+if(EmailId!=null){
+%>
+<h1><%=EmailId %></h1>
+<%session.removeAttribute("email"); %>
+<%} %>
+
+<div class="loginContent">
+  <form action="UserRegisterController" method="post">
+   <h1>User Register</h1>
+   <label for="emailid"><strong>Email Id</strong></label>
+   <input type="email" name="emailid" id="emailid"  autofocus required>
+   <label for="name"><strong>Name</strong></label>
+   <input type="text" name="name" id="name" pattern="[a-zA-Z.]+" title="the name should be in the format of (a-zA-Z.) " required><br>
+   <label for="password"><strong>Password</strong></label>
+   <input type="password" name="password" id="password" pattern="[a-zA-z0-9&@#$_]{8,15}" title="8 or more characters may includes(&@#$_)" required>
+   <label for="address"><strong>Address</strong></label>
+   <input type="text" name="address" id="address"  required>
+   <label for="number"><strong>Number</strong></label>
+   <input type="text" name="mobilenumber" id="number" pattern="[0-9]{10}" title="must have 10digits" required>
+   	<div class="formBtn">
+   	<input type="submit" value="register">
+  	</div>
   </form>
+ </div>
 </body>
 </html>

@@ -4,11 +4,20 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Request {
+	 private int RequestId;
      private User user;
      private Employee employee;
      private String catogories;
      private String location;
+     private String status;
      private Date requestDate;
+     private String employeestatus;
+	public int getRequestId() {
+		return RequestId;
+	}
+	public void setRequestId(int requestId) {
+		RequestId = requestId;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -33,15 +42,24 @@ public class Request {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Date getRequestDate() {
 		return requestDate;
 	}
 	public void setRequestDate(Date requestDate) {
 		this.requestDate = requestDate;
 	}
-	public Request() {
-		super();
-		// TODO Auto-generated constructor stub
+	
+	public String getEmployeestatus() {
+		return employeestatus;
+	}
+	public void setEmployeestatus(String employeestatus) {
+		this.employeestatus = employeestatus;
 	}
 	public Request(User user, Employee employee, String catogories, String location, Date requestDate) {
 		super();
@@ -51,10 +69,39 @@ public class Request {
 		this.location = location;
 		this.requestDate = requestDate;
 	}
+	public Request(int requestId, User user, Employee employee, String catogories, String location, String status,
+			Date requestDate) {
+		super();
+		RequestId = requestId;
+		this.user = user;
+		this.employee = employee;
+		this.catogories = catogories;
+		this.location = location;
+		this.status = status;
+		this.requestDate = requestDate;
+	}
+	
+	public Request(int requestId, User user, Employee employee, String catogories, String location, String status, String employeestatus,
+			Date requestDate) {
+		super();
+		RequestId = requestId;
+		this.user = user;
+		this.employee = employee;
+		this.catogories = catogories;
+		this.location = location;
+		this.status = status;
+		this.employeestatus = employeestatus;
+		this.requestDate = requestDate;
+		
+	}
 	@Override
 	public String toString() {
 		return "Request [user=" + user + ", employee=" + employee + ", catogories=" + catogories + ", location="
 				+ location + ", requestDate=" + requestDate + "]";
+	}
+	public Request() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public int hashCode() {
@@ -73,7 +120,7 @@ public class Request {
 				&& Objects.equals(location, other.location) && Objects.equals(requestDate, other.requestDate)
 				&& Objects.equals(user, other.user);
 	}
-	
      
+	
      
 }

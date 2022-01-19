@@ -1,6 +1,8 @@
 package com.cleaningmanagement.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,9 +32,18 @@ public class DeleteRequestController extends HttpServlet {
 		String category = request.getParameter("cat");
 		String loc = request.getParameter("loc");
 		int Amount=Integer.parseInt(request.getParameter("amount"));
-		System.out.println(category);
-		System.out.println(loc);
-		System.out.println(uid);
+		//System.out.println(category);
+		//System.out.println(loc);
+		//System.out.println(uid);
+		UserDAOImpl userdao1=new UserDAOImpl();
+		List<User> userlist=userdao1.showUser();
+		for(User user1:userlist)
+		{
+			if(user1.getUserEmail().equalsIgnoreCase(user.getUserEmail()))
+			{
+				user=user1;
+			}
+		}
 		RequestDAOImpl requestdao=new RequestDAOImpl();
 		int RequestId=requestdao.findRequestID(uid, category, loc);
 		boolean b=requestdao.deleteRequest(RequestId);
@@ -40,7 +51,9 @@ public class DeleteRequestController extends HttpServlet {
 		{   
 			UserDAOImpl userdao=new UserDAOImpl();
 			userdao.refundWallet(user, Amount);
-			response.sendRedirect("RefundMessage.jsp");
+			//session.setAttribute("amount", Amount);
+			session.setAttribute("deleterequest", true);
+			response.sendRedirect("deleterequest.jsp");
 		}
 		
 	}
