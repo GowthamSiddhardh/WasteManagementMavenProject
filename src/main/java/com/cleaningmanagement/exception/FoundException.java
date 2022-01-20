@@ -4,7 +4,7 @@ public class FoundException extends Exception {
 	@Override
 	public String getMessage() {
 		// TODO Auto-generated method stub
-		return "Employee not found (or) inactive";
+		return "Employee not found/inactive in the given location";
 	}
 	
 	public String getMessage2() {
@@ -22,7 +22,7 @@ public class FoundException extends Exception {
 	}
 	
 	public String getMessage5() {
-		return "you can't change the status since the employeestatus is in pending / inprogress state";
+		return "you can't change the status since the employee status is in pending / inprogress state";
 		
 	}
 	

@@ -58,7 +58,7 @@ background-image: url('images/background1.jpg');
 </style>
 </head>
 <body>
-
+<a href="adminhome.jsp"><button><b>HomePage</b></button></a>
 <% String emailId=request.getParameter("email");
    String status=request.getParameter("status");
    session.setAttribute("emailId", emailId);

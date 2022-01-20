@@ -45,6 +45,7 @@ public class RechargeWalletController extends HttpServlet {
 		boolean b1 = userdao1.rechargeWallet(user);
 		if (b1) {
 			HttpSession session1=request.getSession();
+			session1.setAttribute("Amount", wallet);
 			session1.setAttribute("recharge", true);
 			response.sendRedirect("rechargewallet.jsp");
 		}

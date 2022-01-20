@@ -102,6 +102,7 @@ public class RasieRequestController extends HttpServlet {
 		}catch(FoundException e) {
 			HttpSession session1=request.getSession();
 			session1.setAttribute("insufficient", e.getMessage2());
+			session1.setAttribute("category", request.getParameter("category"));
 			response.sendRedirect("raiserequest.jsp");
 			
 		}
@@ -109,7 +110,7 @@ public class RasieRequestController extends HttpServlet {
 		{   
 			HttpSession session1=request.getSession();
 			session1.setAttribute("notfound", e.getMessage());
-			
+			session1.setAttribute("category", request.getParameter("category"));
 			response.sendRedirect("raiserequest.jsp");
 			
 			

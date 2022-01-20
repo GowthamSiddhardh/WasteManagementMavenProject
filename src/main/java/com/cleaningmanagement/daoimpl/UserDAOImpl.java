@@ -124,9 +124,9 @@ public class UserDAOImpl implements UserDao {
 		int userid = userdao.findUserId(user);
 		// System.out.println(userid);
 		Connection con = ConnectionUtil.getConnection();
-		String joinQuery = "select r.request_id,r.user_id,r.category,c.weight_kg,c.amount,r.emp_id,r.request_date,r.location,r.employeestatus from WMS_request r "
+		String joinQuery = "select r.request_id,r.user_id,r.category,c.weight_kg,c.amount,r.emp_id,r.request_date,r.location from WMS_request r "
 				+ "join Category_details c on r.category=c.categories where user_id=" + userid
-				+ "and r.requeststatus='pending'";
+				+ "and r.employeestatus='pending' and 'inprogress'";
 		ResultSet rs = null;
 		try {
 			Statement stmt = con.createStatement();

@@ -56,6 +56,7 @@ background-image: url('images/background1.jpg');
 </style>
 </head>
 <body>
+<a href="adminhome.jsp"><button><b>HomePage</b></button></a>
 <% int requestId=Integer.parseInt(request.getParameter("Rid"));
 String EmployeeStatus=request.getParameter("empstatus");
 session.setAttribute("reqId", requestId);

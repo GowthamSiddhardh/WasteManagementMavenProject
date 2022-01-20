@@ -90,9 +90,14 @@ left: 10px;
 	%>
 	
 	<h1  class="text-center"><%=insufficient %></h1>
+	<%session.removeAttribute("insufficient"); %>
 	<%} %>
  
- <%String category=request.getParameter("category"); %>
+ <%String category=request.getParameter("category");
+ if(category==null){
+ category=(String)session.getAttribute("category");
+ }%>
+ 
  
  <form action="RasieRequestController" method="post">
   <h1>Raise The Request</h1>

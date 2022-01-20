@@ -38,6 +38,7 @@ table tr:nth-child(even) {
 </style>
 </head>
 <body>
+<a href="adminhome.jsp"><button><b>HomePage</b></button></a>
 <h1>Category Details</h1>
 
 <table class="center">

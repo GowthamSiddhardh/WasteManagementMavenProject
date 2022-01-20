@@ -52,7 +52,7 @@ h1{
    <div class="headerMenu">
   <a href="listcategory.jsp"><button><b>AvailableCategories</b></button></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
   <a href="rechargewallet.jsp"><button><b>RechargeWallet</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-  <a href="deleterequest.jsp"><button><b>DeleteRequest</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+  <a href="deleterequest.jsp"><button><b>MyRequest</b></button></a>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
  </div>
 </div>
 </body>

@@ -56,6 +56,7 @@ h1
 </style>
 </head>
 <body>
+<a href="viewrequest.jsp"><button><b>Back</b></button></a>
 <h1>RequestDetails</h1>
  <table class="center">
   
